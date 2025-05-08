@@ -1,86 +1,102 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
-import React, { useState } from 'react'
-import { TextInput, Button, HelperText } from 'react-native-paper';
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+} from "react-native";
+import React, { useState } from "react";
+import { TextInput, Button, HelperText } from "react-native-paper";
+import { colors } from "@/utils/colors";
 
 const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
-  const [email, setEmail] = useState('');
-  const [msgHelperEmail, setMsgHelperEmail] = useState('');
+  const [email, setEmail] = useState("");
+  const [msgHelperEmail, setMsgHelperEmail] = useState("");
   const [emailError, setEmailError] = useState(false);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (email.length == 0) {
-      setMsgHelperEmail('Email is required');
+      setMsgHelperEmail("Email is required");
       return true;
-    }
-    else if (!emailRegex.test(email)) {
-      setMsgHelperEmail('Email is invalid');
+    } else if (!emailRegex.test(email)) {
+      setMsgHelperEmail("Email is invalid");
       return true;
-    }
-    else {
-      setMsgHelperEmail('');
+    } else {
+      setMsgHelperEmail("");
       return false;
     }
-  }
+  };
 
   const handleResetPassword = () => {
     const isEmailError = validateEmail(email);
     setEmailError(isEmailError);
     if (!isEmailError) {
-      Alert.alert('Reset password info', `Email: ${email}`);
+      Alert.alert("Reset password info", `Email: ${email}`);
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={require('../../assets/padlock-icon.png')} style={styles.logo} />
+        <Image
+          source={require("../../assets/padlock-icon.png")}
+          style={styles.logo}
+        />
         <Text style={styles.title}>Reset your password</Text>
       </View>
       <View style={styles.formContainer}>
         <TextInput
-          placeholder='Enter email'
-          left={<TextInput.Icon icon='email-outline' />}
-          mode='outlined'
+          placeholder="Enter email"
+          left={<TextInput.Icon icon="email-outline" />}
+          mode="outlined"
           value={email}
           onChangeText={(email) => {
             setEmail(email);
             setEmailError(validateEmail(email));
           }}
-          keyboardType='email-address'
-          autoCapitalize='none'
+          keyboardType="email-address"
+          autoCapitalize="none"
           theme={{
             colors: {
-              primary: 'gray',
+              primary: colors.primary,
             },
           }}
         />
-        <HelperText type='error' visible={emailError} >
+        <HelperText type="error" visible={emailError}>
           {msgHelperEmail}
         </HelperText>
-        <Button mode='contained' onPress={handleResetPassword} style={styles.button}>
+        <Button
+          mode="contained"
+          onPress={handleResetPassword}
+          style={styles.button}
+        >
           <Text style={styles.buttonText}>Send reset password</Text>
         </Button>
       </View>
       <View style={styles.linkContainer}>
-      <TouchableOpacity style={styles.linkButton} onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity
+          style={styles.linkButton}
+          onPress={() => navigation.navigate("Login")}
+        >
           <Text style={styles.linkText}>Back to login</Text>
         </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default ForgotPasswordScreen
+export default ForgotPasswordScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 20,
   },
   logoContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 32,
   },
   logo: {
@@ -89,31 +105,31 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   title: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 36,
   },
   formContainer: {
     marginTop: 32,
   },
   buttonText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 18,
   },
   button: {
     marginTop: 16,
     borderRadius: 10,
-    backgroundColor: '#FF803E',
+    backgroundColor: colors.primary,
     paddingVertical: 6,
   },
   linkContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 16,
   },
   linkButton: {
     marginBottom: 8,
   },
   linkText: {
-    color: 'blue',
+    color: colors.primary,
     fontSize: 16,
   },
-})
+});
